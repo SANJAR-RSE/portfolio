@@ -1,4 +1,50 @@
+"use client"
+
+import { useState } from "react"
+
 function Contact() {
+const [name,setname] = useState("")
+const [email,setemail] = useState("")
+const [fam,setfam] = useState("")
+const [message,setmessage] = useState("")
+const [mavzu,setmavzu] = useState("")
+
+
+  async function sendbot (e:any){
+      e.preventDefault()
+      const token = "8823759265:AAEYPMGk_YihKF9QHg03HNmPH8kKaIM_QA4"
+      const chatid = "6549887492"
+      const botmessage = `
+🌟 Yangi Murojaat!
+━━━━━━━━━━━━━━━━━━
+👤 Ism:     ${name}
+    Familiya:${fam}
+📧 Email:   ${email}
+━━━━━━━━━━━━━━━━━━
+mavzu:
+${mavzu}
+
+━━━━━━━━━━━━━━━━━━
+💬 Xabar:
+${message}
+━━━━━━━━━━━━━━━━━━
+`
+
+ let response = await fetch(`https://api.telegram.org/bot${token}/sendMessage`,{
+    method:"POST",
+    headers:{
+      'Content-Type':'application/json'
+    },
+    body:JSON.stringify(
+      {
+        chat_id:chatid,
+        text:botmessage
+      }
+    )
+  })
+
+  }
+
   return (
     <section className="w-full min-h-screen bg-[#262624] px-10 py-20">
       <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
@@ -61,6 +107,10 @@ function Contact() {
               <div>
                 <label className="text-xs text-[#77756d] mb-2 block">Ism</label>
                 <input
+                  value={name}
+                  onChange={(e)=>{
+                    setname(e.target.value)
+                  }}
                   type="text"
                   placeholder="Ismingiz"
                   className="w-full bg-[#333331] border border-[#3d3d3b] text-[#faf9f5] text-sm rounded-xl px-4 py-2.5 outline-none focus:border-[#534AB7] transition-colors placeholder:text-[#5F5E5A]"
@@ -69,6 +119,10 @@ function Contact() {
               <div>
                 <label className="text-xs text-[#77756d] mb-2 block">Familiya</label>
                 <input
+                  value={fam}
+                  onChange={(e)=>{
+                    setfam(e.target.value)
+                  }}
                   type="text"
                   placeholder="Familiyangiz"
                   className="w-full bg-[#333331] border border-[#3d3d3b] text-[#faf9f5] text-sm rounded-xl px-4 py-2.5 outline-none focus:border-[#534AB7] transition-colors placeholder:text-[#5F5E5A]"
@@ -79,6 +133,10 @@ function Contact() {
             <div>
               <label className="text-xs text-[#77756d] mb-2 block">Email</label>
               <input
+                value={email}
+                onChange={(e)=>{
+                  setemail(e.target.value)
+                }}
                 type="email"
                 placeholder="email@example.com"
                 className="w-full bg-[#333331] border border-[#3d3d3b] text-[#faf9f5] text-sm rounded-xl px-4 py-2.5 outline-none focus:border-[#534AB7] transition-colors placeholder:text-[#5F5E5A]"
@@ -88,6 +146,10 @@ function Contact() {
             <div>
               <label className="text-xs text-[#77756d] mb-2 block">Mavzu</label>
               <input
+                value={mavzu}
+                onChange={(e)=>{
+                  setmavzu(e.target.value)
+                }}
                 type="text"
                 placeholder="Nima haqida yozmoqchisiz?"
                 className="w-full bg-[#333331] border border-[#3d3d3b] text-[#faf9f5] text-sm rounded-xl px-4 py-2.5 outline-none focus:border-[#534AB7] transition-colors placeholder:text-[#5F5E5A]"
@@ -97,13 +159,17 @@ function Contact() {
             <div>
               <label className="text-xs text-[#77756d] mb-2 block">Xabar</label>
               <textarea
+                value={message}
+                onChange={(e)=>{
+                  setmessage(e.target.value)
+                }}
                 rows={4}
                 placeholder="Xabaringizni yozing..."
                 className="w-full bg-[#333331] border border-[#3d3d3b] text-[#faf9f5] text-sm rounded-xl px-4 py-2.5 outline-none focus:border-[#534AB7] transition-colors placeholder:text-[#5F5E5A] resize-none"
               />
             </div>
 
-            <button className="w-full flex items-center justify-center gap-2 bg-[#534AB7] hover:bg-[#3C3489] text-white text-sm font-medium py-3 rounded-xl transition-colors cursor-pointer mt-1">
+            <button onClick={sendbot} className="w-full flex items-center justify-center gap-2 bg-[#534AB7] hover:bg-[#3C3489] text-white text-sm font-medium py-3 rounded-xl transition-colors cursor-pointer mt-1">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
               Yuborish
             </button>
