@@ -52,7 +52,7 @@ export default function Home() {
         <h1 className="text-[#faf9f5] text-6xl font-bold mt-8">Sanjar Rasulberdiyev</h1>
 
         <div className="flex items-center gap-2 mt-4">
-          <span className="text-[#a89fe8] text-3xl font-semibold">{text}</span>
+          <span className="text-[#a89fe8] text-3xl font-semibold"><span className="text-[20px] text-gray-500">{`>_ `} </span>{text}</span>
           <span className="w-[2px] h-7 bg-[#a89fe8] animate-pulse inline-block" />
         </div>
 

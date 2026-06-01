@@ -15,20 +15,22 @@ const [mavzu,setmavzu] = useState("")
       const token = "8823759265:AAEYPMGk_YihKF9QHg03HNmPH8kKaIM_QA4"
       const chatid = "6549887492"
       const botmessage = `
-🌟 Yangi Murojaat!
-━━━━━━━━━━━━━━━━━━
-👤 Ism:     ${name}
-    Familiya:${fam}
-📧 Email:   ${email}
-━━━━━━━━━━━━━━━━━━
-mavzu:
-${mavzu}
+            🌟 Yangi Murojaat!
+            ━━━━━━━━━━━━━━━━━━
+            Ism:     ${name}
+            Familiya:${fam}
+            Email:   ${email}
+            ━━━━━━━━━━━━━━━━━━
+            mavzu:
+            ${mavzu}
 
-━━━━━━━━━━━━━━━━━━
-💬 Xabar:
-${message}
-━━━━━━━━━━━━━━━━━━
-`
+            ━━━━━━━━━━━━━━━━━━
+            💬 Xabar:
+            ${message}
+
+            
+            ━━━━━━━━━━━━━━━━━━
+            `                 
 
  let response = await fetch(`https://api.telegram.org/bot${token}/sendMessage`,{
     method:"POST",
