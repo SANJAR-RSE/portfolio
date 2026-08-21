@@ -9,6 +9,26 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    name: "HireUz",
+    description:
+      "Job marketplace connecting employers and candidates: employers post vacancies, candidates apply, and both sides get real-time status updates via web and Telegram. Includes AI-powered job recommendations for candidates and skill-based application summaries for employers, while keeping final hiring decisions human-controlled.",
+    tech: [
+      "Next.js",
+      "TypeScript",
+      "Tailwind CSS",
+      "shadcn/ui",
+      "Node.js",
+      "Express",
+      "MongoDB",
+      "Mongoose",
+      "JWT",
+      "Telegram Bot API",
+    ],
+    github: "https://github.com/SANJAR-RSE/HireUz",
+    live: "https://hireuz-web.vercel.app/",
+    featured: true,
+  },
+  {
     name: "Pulse",
     description:
       "HealthTech ecosystem for everyday health tracking — pick a clinic, department and doctor, book a queue online, follow its status in real time and keep a medical history, unified across web and Telegram under one account. Includes an in-app AI assistant that answers from real backend data (clinics, doctors, queue status) instead of a static script.",
