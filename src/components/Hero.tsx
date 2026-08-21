@@ -30,7 +30,7 @@ export default function Hero() {
           className="mb-6 inline-flex items-center gap-2 rounded-full border border-border-strong bg-surface px-4 py-1.5 font-mono text-xs text-text-muted"
         >
           <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-          Frontend Developer &middot; based in Uzbekistan
+          Full Stack Developer &middot; based in Uzbekistan
         </motion.p>
 
         <motion.h1
