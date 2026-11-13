@@ -1,62 +1,179 @@
 @import "tailwindcss";
 
-:root {
-  --color-bg: #030918;
-  --color-surface: #070f24;
-  --color-surface-2: #0b1530;
-  --color-border: rgba(255, 255, 255, 0.08);
-  --color-border-strong: rgba(255, 255, 255, 0.16);
-  --color-text: #f4f6f2;
-  --color-text-muted: #9aa4b8;
-  --color-accent: #708238;
-  --color-accent-soft: #8a9f4a;
-  --color-accent-dim: rgba(112, 130, 56, 0.14);
+@theme {
+  --color-bg: #08080d;
+  --color-surface: #101017;
+  --color-surface-2: #16161f;
+  --color-line: rgb(255 255 255 / 0.07);
+  --color-line-strong: rgb(255 255 255 / 0.13);
+  --color-fg: #f5f5f7;
+  --color-muted: #92929d;
+  --color-accent: #a855f7;
+  --color-accent-strong: #7e22ce;
+  --color-accent-soft: #c9a8ff;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @theme inline {
-  --color-bg: var(--color-bg);
-  --color-surface: var(--color-surface);
-  --color-surface-2: var(--color-surface-2);
-  --color-border: var(--color-border);
-  --color-border-strong: var(--color-border-strong);
-  --color-text: var(--color-text);
-  --color-text-muted: var(--color-text-muted);
-  --color-accent: var(--color-accent);
-  --color-accent-soft: var(--color-accent-soft);
-  --color-accent-dim: var(--color-accent-dim);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-serif: var(--font-instrument-serif), ui-serif, Georgia, serif;
 }
 
 html {
   scroll-behavior: smooth;
+  color-scheme: dark;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
   background: var(--color-bg);
-  color: var(--color-text);
+  color: var(--color-fg);
+  font-feature-settings: "ss01", "cv11";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+}
+
+/* Fine film grain over everything — a static SVG, no runtime cost. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 ::selection {
   background: var(--color-accent);
-  color: #030918;
+  color: #fff;
 }
 
-/* subtle ambient grid, kept cheap: no blur, no per-frame cost */
-.bg-grid {
+:focus-visible {
+  outline: 2px solid var(--color-accent-soft);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* ---------- Hero atmosphere ---------- */
+.hero-glow {
+  background:
+    radial-gradient(40rem 32rem at 78% 42%, rgb(126 34 206 / 0.22), transparent 70%),
+    radial-gradient(28rem 20rem at 10% 0%, rgb(168 85 247 / 0.08), transparent 70%);
+}
+
+.hero-grid {
   background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
-  background-size: 56px 56px;
-  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 100%);
+    linear-gradient(to right, rgb(255 255 255 / 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(255 255 255 / 0.03) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(ellipse 70% 60% at 70% 40%, black 10%, transparent 75%);
 }
 
-.text-balance {
-  text-wrap: balance;
+.pulse-dot {
+  animation: pulse-dot 2.4s var(--ease-out-expo) infinite;
+}
+
+@keyframes pulse-dot {
+  0% { transform: scale(1); opacity: 0.6; }
+  80%, 100% { transform: scale(2.6); opacity: 0; }
+}
+
+.scroll-cue {
+  animation: scroll-cue 2.2s ease-in-out infinite;
+}
+
+@keyframes scroll-cue {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(3px); }
+}
+
+/* Staggered entrance for hero content (index set via --i). */
+.intro {
+  animation: intro-rise 1.1s var(--ease-out-expo) both;
+  animation-delay: calc(var(--i, 0) * 90ms + 80ms);
+}
+
+@keyframes intro-rise {
+  from { opacity: 0; transform: translate3d(0, 22px, 0); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ---------- Scroll reveal (driven by <Reveal />) ---------- */
+.js [data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 28px, 0);
+  transition:
+    opacity 1s var(--ease-out-expo),
+    transform 1s var(--ease-out-expo);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.js [data-reveal][data-visible="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- Project screenshots ---------- */
+.shot-glow {
+  background: radial-gradient(closest-side, rgb(168 85 247 / 0.16), transparent);
+}
+
+/* ---------- Tech chips: brand colour only on hover ---------- */
+.tech-chip {
+  transition: border-color 0.3s, background-color 0.3s, color 0.3s;
+}
+.tech-chip .tech-icon {
+  color: var(--color-muted);
+  transition: color 0.3s;
+}
+.tech-chip:hover {
+  border-color: var(--color-line-strong);
+  background-color: var(--color-surface-2);
+  color: var(--color-fg);
+}
+.tech-chip:hover .tech-icon {
+  color: var(--brand);
+}
+
+/* ---------- Achievement ---------- */
+.achievement {
+  background:
+    radial-gradient(36rem 22rem at 85% 50%, rgb(126 34 206 / 0.18), transparent 70%),
+    var(--color-surface);
+}
+
+.achievement-rank {
+  background: linear-gradient(160deg, #f5f5f7 10%, #c9a8ff 55%, #7e22ce 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.contact-glow {
+  background: radial-gradient(50rem 24rem at 50% 100%, rgb(126 34 206 / 0.18), transparent 70%);
 }
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+  .intro,
+  .pulse-dot,
+  .scroll-cue {
+    animation: none;
+  }
+  .js [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
   }
 }
